@@ -40,7 +40,9 @@ jobs:
             ls
             pwd
             . build/envsetup.sh
-            export WITH_GMS=0
+            export WITH_GAPPS=0
+            ALPHA_MAINTAINER := ozipoetra
+            ALPHA_BUILD_TYPE := Community
             export ALLOW_MISSING_DEPENDENCIES=true
             export BUILD_USERNAME=ozipoetra
             export BUILD_HOSTNAME=ozip.my.id
