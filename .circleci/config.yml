@@ -17,11 +17,30 @@ jobs:
       - run:
           name: "Sync"
           command: |
-            curl -sL https://raw.githubusercontent.com/mitsu00/ci-tester/main/scripts/checks.sh | bash
+            cd ~
+            mkdir ~/.bin
+            curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
+            chmod a+x ~/.bin/repo
+            echo "export PATH=~/bin:$PATH" >> ~/.bashrc
+            # Clone the Sync Repo
+            # Initialize local repository
+            repo init --depth=1 --no-repo-verify -u https://github.com/alphadroid-project/manifest -b alpha-13 --git-lfs -g default,-mips,-darwin,-notdefault
+            git clone https://github.com/mitsu00/local_manifest.git --depth 1 -b alpha .repo/local_manifests
+            repo sync -c --no-clone-bundle --optimized-fetch --prune --force-sync --fail-fast -j$(nproc --all)
       - run:
           name: "build"
           command: |
-            curl -sL https://raw.githubusercontent.com/mitsu00/ci-tester/main/scripts/build.sh | bash
+            echo " Test Build "
+            df -h
+            . build/envsetup.sh
+            export ALLOW_MISSING_DEPENDENCIES=true
+            export BUILD_USERNAME=ozipoetra
+            export BUILD_HOSTNAME=ozip.my.id
+            export TZ=Asia/Jakarta
+            lunch lineage_merlinx-user
+            mka sepolicy
+            mka bootimage
+            mka init
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
