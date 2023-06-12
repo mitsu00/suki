@@ -24,6 +24,7 @@ jobs:
             echo "export PATH=~/bin:$PATH" >> ~/.bashrc
             # Clone the Sync Repo
             # Initialize local repository
+            cd ~
             repo init --depth=1 --no-repo-verify -u https://github.com/alphadroid-project/manifest -b alpha-13 --git-lfs -g default,-mips,-darwin,-notdefault
             git clone https://github.com/mitsu00/local_manifest.git --depth 1 -b alpha .repo/local_manifests
             repo sync -c --no-clone-bundle --optimized-fetch --prune --force-sync --fail-fast -j$(nproc --all)
@@ -32,7 +33,14 @@ jobs:
           command: |
             echo " Test Build "
             df -h
+            ls
+            echo " - "
+            pwd
+            cd ~
+            ls
+            pwd
             . build/envsetup.sh
+            export WITH_GMS=0
             export ALLOW_MISSING_DEPENDENCIES=true
             export BUILD_USERNAME=ozipoetra
             export BUILD_HOSTNAME=ozip.my.id
