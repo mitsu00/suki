@@ -1,19 +1,23 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/configuration-reference
 version: 2.1
-
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/configuration-reference/#jobs
+workflows:
+  main:
+    jobs:
+      - build
 jobs:
   build:
-    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/configuration-reference/#executor-job
-    docker:
-      - image: ghcr.io/sushrut1101/docker:arch
-    # Add steps to the job
-    # See: https://circleci.com/docs/configuration-reference/#steps
+    machine:
+      image: ubuntu-2204:2023.04.2
     steps:
       - checkout
+      - run:
+          name: "Dependency Install"
+          command: |
+            sudo apt update
+            sudo apt install -y openssh-server screen python3 git openjdk-8-jdk android-tools-adb bc \
+            bison build-essential curl flex g++-multilib gcc-multilib gnupg gperf imagemagick \
+            lib32ncurses-dev lib32readline-dev lib32z1-dev  liblz4-tool libncurses5-dev libsdl1.2-dev \
+            libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc \
+            yasm zip zlib1g-dev libtinfo5 libncurses5
       - run:
           name: "Sync"
           command: |
@@ -33,7 +37,6 @@ jobs:
           command: |
             echo " Test Build "
             df -h
-            ls
             echo " - "
             pwd
             cd ~
@@ -41,8 +44,8 @@ jobs:
             pwd
             . build/envsetup.sh
             export WITH_GAPPS=0
-            ALPHA_MAINTAINER := ozipoetra
-            ALPHA_BUILD_TYPE := Community
+            export ALPHA_MAINTAINER=ozipoetra
+            export ALPHA_BUILD_TYPE=Community
             export ALLOW_MISSING_DEPENDENCIES=true
             export BUILD_USERNAME=ozipoetra
             export BUILD_HOSTNAME=ozip.my.id
@@ -51,10 +54,3 @@ jobs:
             mka sepolicy
             mka bootimage
             mka init
-
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/configuration-reference/#workflows
-workflows:
-  build-workflow:
-    jobs:
-      - build
