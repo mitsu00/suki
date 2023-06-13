@@ -6,7 +6,7 @@ workflows:
 jobs:
   build:
     docker:
-      - image: apon77/aosp:latest
+      - image: ghcr.io/sushrut1101/docker:arch
     steps:
       - checkout
       - run:
@@ -37,12 +37,12 @@ jobs:
             ls
             pwd
             export WITH_GMS=0
-            . build/envsetup.sh
+            echo yes| . build/envsetup.sh
             export ALLOW_MISSING_DEPENDENCIES=true
             export BUILD_USERNAME=ozipoetra
             export BUILD_HOSTNAME=ozip.my.id
             export TZ=Asia/Jakarta
             lunch lineage_merlinx-user
-            mka sepolicy
-            mka bootimage
-            mka init
+            #mka sepolicy
+            echo yes| mka bootimage
+            #mka init
