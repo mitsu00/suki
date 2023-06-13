@@ -12,7 +12,7 @@ jobs:
       - run:
           name: "Remove Unused Dependency"
           command: |
-            sudo apt purge --auto-remove -y google-chrome-stable google-cloud-cli nodejs firefox openjdk*
+            sudo apt purge --auto-remove -y google-chrome-stable nodejs firefox openjdk*
       - run:
           name: "Dependency Install"
           command: |
