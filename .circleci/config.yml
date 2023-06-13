@@ -5,31 +5,20 @@ workflows:
       - build
 jobs:
   build:
-    machine:
-      image: ubuntu-2204:2023.04.2
+    docker:
+      image: ghcr.io/sushrut1101/docker:arch
     steps:
       - checkout
-      - run:
-          name: "Remove Unused Dependency"
-          command: |
-            sudo apt purge --auto-remove -y google-chrome-stable nodejs firefox openjdk*
-      - run:
-          name: "Dependency Install"
-          command: |
-            sudo apt update
-            sudo apt install -y openssh-server screen python3 git openjdk-8-jdk android-tools-adb bc \
-            bison build-essential curl flex g++-multilib gcc-multilib gnupg gperf imagemagick \
-            lib32ncurses-dev lib32readline-dev lib32z1-dev  liblz4-tool libncurses5-dev libsdl1.2-dev \
-            libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc \
-            yasm zip zlib1g-dev libtinfo5 libncurses5
       - run:
           name: "Sync"
           command: |
             export DEBIAN_FRONTEND=noninteractive
             cd ~
+            cd ~
             mkdir ~/.bin
-            sudo curl --create-dirs -L -o /usr/local/bin/repo -O -L https://storage.googleapis.com/git-repo-downloads/repo
-            sudo chmod a+rx /usr/local/bin/repo
+            curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
+            chmod a+x ~/.bin/repo
+            echo "export PATH=~/bin:$PATH" >> ~/.bashrc
             # Clone the Sync Repo
             # Initialize local repository
             cd ~
@@ -47,10 +36,8 @@ jobs:
             cd ~
             ls
             pwd
+            export WITH_GMS=0
             . build/envsetup.sh
-            export WITH_GAPPS=0
-            export ALPHA_MAINTAINER=ozipoetra
-            export ALPHA_BUILD_TYPE=Official
             export ALLOW_MISSING_DEPENDENCIES=true
             export BUILD_USERNAME=ozipoetra
             export BUILD_HOSTNAME=ozip.my.id
