@@ -7,6 +7,13 @@ jobs:
   build:
     docker:
       - image: ghcr.io/sushrut1101/docker:arch
+    env:
+      WITH_GMS=0
+      ALLOW_MISSING_DEPENDENCIES=true
+      BUILD_USERNAME=ozipoetra
+      BUILD_HOSTNAME=ozip.my.id
+      TZ=Asia/Jakarta
+      DEBIAN_FRONTEND=noninteractive
     steps:
       - checkout
       - run:
@@ -36,13 +43,8 @@ jobs:
             cd ~
             ls
             pwd
-            export WITH_GMS=0
-            echo yes | . build/envsetup.sh
-            export ALLOW_MISSING_DEPENDENCIES=true
-            export BUILD_USERNAME=ozipoetra
-            export BUILD_HOSTNAME=ozip.my.id
-            export TZ=Asia/Jakarta
-            echo yes | lunch lineage_merlinx-user
+            . build/envsetup.sh
+            lunch lineage_merlinx-user
             #mka sepolicy
-            echo yes | mka bootimage
+            mka bootimage
             #mka init
