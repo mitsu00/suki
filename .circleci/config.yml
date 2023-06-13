@@ -37,12 +37,12 @@ jobs:
             ls
             pwd
             export WITH_GMS=0
-            echo yes| . build/envsetup.sh
+            echo yes | . build/envsetup.sh
             export ALLOW_MISSING_DEPENDENCIES=true
             export BUILD_USERNAME=ozipoetra
             export BUILD_HOSTNAME=ozip.my.id
             export TZ=Asia/Jakarta
-            lunch lineage_merlinx-user
+            echo yes | lunch lineage_merlinx-user
             #mka sepolicy
-            echo yes| mka bootimage
+            echo yes | mka bootimage
             #mka init
