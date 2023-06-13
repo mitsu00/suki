@@ -34,6 +34,7 @@ jobs:
       - run:
           name: "build"
           command: |
+            export DEBIAN_FRONTEND=noninteractive
             echo " Test Build "
             df -h
             echo " - "
@@ -44,7 +45,7 @@ jobs:
             . build/envsetup.sh
             export WITH_GAPPS=0
             export ALPHA_MAINTAINER=ozipoetra
-            export ALPHA_BUILD_TYPE=Community
+            export ALPHA_BUILD_TYPE=Official
             export ALLOW_MISSING_DEPENDENCIES=true
             export BUILD_USERNAME=ozipoetra
             export BUILD_HOSTNAME=ozip.my.id
