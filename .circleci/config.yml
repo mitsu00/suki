@@ -6,7 +6,7 @@ workflows:
 jobs:
   build:
     docker:
-      - image: ghcr.io/sushrut1101/docker:arch
+      - image: apon77/aosp:latest
     steps:
       - checkout
       - run:
