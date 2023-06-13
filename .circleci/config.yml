@@ -10,6 +10,10 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Remove Unused Dependency"
+          command: |
+            sudo apt purge --auto-remove -y google-chrome-stable google-cloud-cli nodejs firefox openjdk*
+      - run:
           name: "Dependency Install"
           command: |
             sudo apt update
@@ -21,6 +25,7 @@ jobs:
       - run:
           name: "Sync"
           command: |
+            export DEBIAN_FRONTEND=noninteractive
             cd ~
             mkdir ~/.bin
             sudo curl --create-dirs -L -o /usr/local/bin/repo -O -L https://storage.googleapis.com/git-repo-downloads/repo
