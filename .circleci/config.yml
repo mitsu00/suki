@@ -6,7 +6,7 @@ workflows:
 jobs:
   build:
     docker:
-      image: ghcr.io/sushrut1101/docker:arch
+      - image: ghcr.io/sushrut1101/docker:arch
     steps:
       - checkout
       - run:
