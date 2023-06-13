@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: ghcr.io/sushrut1101/docker:arch
-    env:
+    environment:
       WITH_GMS=0
       ALLOW_MISSING_DEPENDENCIES=true
       BUILD_USERNAME=ozipoetra
