@@ -7,20 +7,11 @@ jobs:
   build:
     docker:
       - image: ghcr.io/sushrut1101/docker:arch
-    environment:
-      WITH_GMS=0
-      ALLOW_MISSING_DEPENDENCIES=true
-      BUILD_USERNAME=ozipoetra
-      BUILD_HOSTNAME=ozip.my.id
-      TZ=Asia/Jakarta
-      DEBIAN_FRONTEND=noninteractive
     steps:
       - checkout
       - run:
           name: "Sync"
           command: |
-            export DEBIAN_FRONTEND=noninteractive
-            cd ~
             cd ~
             mkdir ~/.bin
             curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
@@ -29,22 +20,18 @@ jobs:
             # Clone the Sync Repo
             # Initialize local repository
             cd ~
-            repo init --depth=1 --no-repo-verify -u https://github.com/alphadroid-project/manifest -b alpha-13 -g default,-mips,-darwin,-notdefault
-            git clone https://github.com/mitsu00/local_manifest.git --depth 1 -b alpha .repo/local_manifests
-            repo sync -c --no-clone-bundle --optimized-fetch --prune --force-sync --fail-fast -j$(nproc --all)
+            repo init --depth=1 --no-repo-verify -u https://github.com/bananadroid/android_manifest.git -b 13 --git-lfs -g default,-mips,-darwin,-notdefault
+            git clone https://github.com/mitsu00/local_manifest.git --depth 1 -b banana-13 .repo/local_manifests
+            repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j$(nproc --all)
+
       - run:
           name: "build"
           command: |
-            export DEBIAN_FRONTEND=noninteractive
-            echo " Test Build "
-            df -h
-            echo " - "
-            pwd
             cd ~
-            ls
-            pwd
             . build/envsetup.sh
-            lunch lineage_merlinx-user
-            #mka sepolicy
-            mka bootimage
-            #mka init
+            lunch banana_merlinx-user
+            export ALLOW_MISSING_DEPENDENCIES=true
+            export BUILD_USERNAME=ozip
+            export BUILD_HOSTNAME=ozip
+            export TZ=Asia/Jakarta
+            mka banana
