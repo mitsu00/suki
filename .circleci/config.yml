@@ -12,16 +12,21 @@ jobs:
       - run:
           name: "Sync"
           command: |
-            cd ~
-            mkdir ~/.bin
-            curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
-            chmod a+x ~/.bin/repo
-            echo "export PATH=~/bin:$PATH" >> ~/.bashrc
+            #cd ~
+            # Make a directory where Repo will be stored and add it to the path
+            #mkdir ~/bin
+            #PATH=~/bin:$PATH
+            
+            # Download Repo itself
+            #curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+            
+            # Make Repo executable
+            #chmod a+x ~/bin/repo
             # Clone the Sync Repo
             # Initialize local repository
             cd ~
-            repo init --config-name=ozip --depth=1 --no-repo-verify -u https://github.com/bananadroid/android_manifest.git -b 13 --git-lfs -g default,-mips,-darwin,-notdefault
-            git clone https://github.com/mitsu00/local_manifest.git --depth 1 -b banana .repo/local_manifests
+            repo init --depth=1 --no-repo-verify -u https://github.com/crdroidandroid/android.git -b 11.0 --git-lfs -g default,-mips,-darwin,-notdefault
+            git clone https://github.com/mitsu00/local_manifest.git --depth 1 -b crdroid-11 .repo/local_manifests
             repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j$(nproc --all)
 
       - run:
@@ -29,9 +34,9 @@ jobs:
           command: |
             cd ~
             . build/envsetup.sh
-            lunch banana_merlinx-user
+            lunch lineage_merlinx-user
             export ALLOW_MISSING_DEPENDENCIES=true
-            export BUILD_USERNAME=ozip
+            export BUILD_USERNAME=mitsu00
             export BUILD_HOSTNAME=ozip
             export TZ=Asia/Jakarta
-            m init
+            m bacon
