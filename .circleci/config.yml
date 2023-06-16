@@ -35,9 +35,8 @@ jobs:
             cd ~
             . build/envsetup.sh
             export TARGET_ARCH=arm64
-            lunch lineage_merlinx-user
             export ALLOW_MISSING_DEPENDENCIES=true
             export BUILD_USERNAME=mitsu00
             export BUILD_HOSTNAME=ozip
             export TZ=Asia/Jakarta
-            mka bacon
+            brunch "merlinx"
