@@ -9,6 +9,6 @@ jobs:
       image: ubuntu-2204 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
     steps:
       - run: |
-        sudo apt update
-        sudo apt install tmate
-        sudo tmate
+         sudo apt update
+         sudo apt install tmate
+         sudo tmate
