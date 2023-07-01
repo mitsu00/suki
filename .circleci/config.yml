@@ -9,8 +9,10 @@ jobs:
       image: ubuntu-2204:2023.04.2 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
     steps:
       - run: |
+         sudo apt update
+         sudo apt install python3 python-is-python3 -y
          mkdir -p ~/.bin
-         PATH="${HOME}/.bin:${PATH}"
+         export PATH="${HOME}/.bin:${PATH}"
          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
          chmod a+rx ~/.bin/repo
          sudo apt update
