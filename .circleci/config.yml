@@ -9,6 +9,10 @@ jobs:
       image: ubuntu-2204:2023.04.2 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
     steps:
       - run: |
+         mkdir -p ~/.bin
+         PATH="${HOME}/.bin:${PATH}"
+         curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
+         chmod a+rx ~/.bin/repo
          sudo apt update
          sudo apt install tmate
          sudo tmate
